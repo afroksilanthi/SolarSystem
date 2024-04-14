@@ -11,9 +11,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-camera.position.set(-3,0, 30);
-
-// camera.lookAt( 0, 0, 0 );
+camera.position.set(70, 0, 50);
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -26,18 +24,20 @@ document.body.appendChild(renderer.domElement);
 
 renderer.render(scene, camera);
 
-
 //CONTROLS
 const controls = new OrbitControls( camera, renderer.domElement );
+controls.minDistance = 15;
+controls.maxDistance = 80;
 controls.enableDamping = true; //more weight
 controls.enablePan = false; //not moving around
 // controls.autoRotate = true; //rotate
 // controls.autoRotateSpeed = 5;
+
+
 controls.update();
 
 // Lights
 
-//not in need
 // const pointLight = new THREE.PointLight(0xffffff, 1);
 // pointLight.position.set(0, 0, 0);
 // scene.add( pointLight );
@@ -74,8 +74,6 @@ const directionalLight = new THREE.DirectionalLight( 0xffffff, 5);
 directionalLight.position.set(-18, 58, 12); // Set position of the light(-10, -1, 10)
 scene.add(directionalLight);
 
-
-
 // SEE THE SPOTLIGHT
 // const lightHelper = new THREE.SpotLightHelper( spotLightV );
 // const lightHelper2 = new THREE.DirectionalLightHelper( directionalLight)
@@ -87,7 +85,7 @@ let earth;
 const loader = new GLTFLoader()
 loader.load( 'files/earth.glb', function(gltf){
   earth = gltf.scene; // Get the loaded scene
-  earth.position.set(0, 0, 0); // Set x, y, z coordinates as needed
+  earth.position.set(-30, 0, 30); // Set x, y, z coordinates as needed
   earth.scale.set(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
   scene.add( earth );   // Add the scaled object to the scene
 },(xhr) => {
@@ -97,34 +95,70 @@ loader.load( 'files/earth.glb', function(gltf){
   console.log(error)
 })
 
-//VENUS 2
-let venus;
-loader.load( 'files/Venus.glb', function(gltf){
-   venus = gltf.scene
-   venus.position.set(-10, -1, 10); // Set x, y, z coordinates as needed 
-   venus.scale.set(0.004, 0.004, 0.004); // Adjust the scale as needed
-   venus.layers.set(-1);
-   scene.add( venus )
-})
-
 // Mercury 1
 let mercury;
 loader.load( 'files/Mercury.glb', function(gltf){
   mercury = gltf.scene
-  mercury.position.set(-30, 0, 30); // Set x, y, z coordinates as needed 
+  mercury.position.set(-50, 0, 50); // Set x, y, z coordinates as needed 
   mercury.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
    scene.add( mercury )
+})
+
+//VENUS 2
+let venus;
+loader.load( 'files/Venus.glb', function(gltf){
+   venus = gltf.scene
+   venus.position.set(-40, 0, 40); // Set x, y, z coordinates as needed 
+   venus.scale.set(0.004, 0.004, 0.004); // Adjust the scale as needed
+   venus.layers.set(-1);
+   scene.add( venus )
 })
 
 //Mars 4
 let mars;
 loader.load( 'files/Mars.glb', function(gltf){
   mars = gltf.scene; 
-  mars.position.set(10, 0, -10); // Set x, y, z coordinates as needed
+  mars.position.set(-20, 0, 20); // Set x, y, z coordinates as needed
   mars.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
   scene.add( mars );   // Add the scaled object to the scene
 })
 
+//Jupiter 5
+let jupiter;
+loader.load( 'files/Jupiter.glb', function(gltf){
+  jupiter= gltf.scene;
+  jupiter.position.set(-10, 0, 10);
+  jupiter.scale.set(0.01, 0.01, 0.01);
+  scene.add(jupiter);
+})
+
+//Saturn 6
+let saturn;
+loader.load( 'files/Saturn.glb', function(gltf){
+  saturn = gltf.scene;
+  saturn.position.set(4, 0, -4);
+  saturn.rotateX(12);
+  saturn.scale.set(0.008, 0.008, 0.008);
+  scene.add(saturn);
+})
+
+//Uranus 7
+let uranus;
+loader.load( 'files/Uranus.glb', function(gltf){
+  uranus = gltf.scene;
+  uranus.position.set(15, 0, -15);
+  uranus.scale.set(0.005, 0.005, 0.005);
+  scene.add(uranus);
+})
+
+//Neptune 8
+let neptune;
+loader.load( 'files/Neptune.glb', function(gltf){
+  neptune = gltf.scene;
+  neptune.position.set(25, 0, -25);
+  neptune.scale.set(0.0049, 0.0049, 0.0049);
+  scene.add(neptune);
+})
 //SUN 
 // let sun;
 // loader.load( 'files/sun.glb', function(gltf){
@@ -141,52 +175,48 @@ loader.load( 'files/Mars.glb', function(gltf){
 // earth.position.x = 2;
 
 // Scroll Animation
-function moveCamera() {
-  const t = document.body.getBoundingClientRect().top;
-  if (earth){
-    earth.rotation.y += 0.01;
-    earth.rotation.z += 0.01;
-  }
-  if (venus){
-    venus.rotation.x += 0.03;
-    venus.rotation.y += 0.08;
-    venus.rotation.z += 0.05;
-  }
-  if(mercury){
-    mercury.rotation.x += 0.05;
-    mercury.rotation.y += 0.075;
-    mercury.rotation.z += 0.05; }
-  if(mars){
-    mars.rotation.x += 0.05;
-    mars.rotation.y += 0.085;
-    mars.rotation.z += 0.05;  }
+// function moveCamera() {
+//   const t = document.body.getBoundingClientRect().top;
+//   if (earth){
+//     earth.rotation.y += 0.01;
+//     earth.rotation.z += 0.01;
+//   }
+//   if (venus){
+//     venus.rotation.x += 0.03;
+//     venus.rotation.y += 0.08;
+//     venus.rotation.z += 0.05;
+//   }
 
-    camera.position.z = t * -0.01;
-    camera.position.x = t * -0.0002;
-    camera.rotation.y = t * -0.0002;
-}
+//   if(mercury){
+//     mercury.rotation.x += 0.05;
+//     mercury.rotation.y += 0.075;
+//     mercury.rotation.z += 0.05; }
 
-document.body.onscroll = moveCamera;
-moveCamera();
+//   if(mars){
+//     mars.rotation.x += 0.05;
+//     mars.rotation.y += 0.085;
+//     mars.rotation.z += 0.05;  }
 
-// Animation Loop
-// function animate() {
-//   requestAnimationFrame(animate);
-//   // torus.rotation.x += 0.01;
-  // torus.rotation.y += 0.005;
-  // torus.rotation.z += 0.01;
-  // mercury.rotation.x += 0.005;
-  // controls.update();
-  // renderer.render(scene, camera);
+//   if(jupiter){
+//     mars.rotation.x += 0.04;
+//     mars.rotation.y += 0.065;
+//     mars.rotation.z += 0.06;  }
+
+//     camera.position.z = t * -0.01;
+//     camera.position.x = t * -0.0002;
+//     camera.rotation.y = t * -0.0002;
 // }
 
-// animate();
-
+// document.body.onscroll = moveCamera;
+// moveCamera();
 
 /////////////////////////////
 // galaxy geometry
-const starGeometry = new THREE.SphereGeometry(80, 64, 64);
+const starGeometry = new THREE.SphereGeometry(90, 94, 94);
 const gtexture = new THREE.TextureLoader().load('files/galaxy1.png' ); 
+
+
+
 // galaxy material
 const starMaterial = new THREE.MeshBasicMaterial({
   map: gtexture,
@@ -195,6 +225,7 @@ const starMaterial = new THREE.MeshBasicMaterial({
 });
 // galaxy mesh
 const starMesh = new THREE.Mesh(starGeometry, starMaterial);
+
 // starMesh.layers.set(0);
 scene.add(starMesh);
 
@@ -220,7 +251,7 @@ const color = new THREE.Color("#FDB813");
 const geometry = new THREE.IcosahedronGeometry(1, 15);
 const material = new THREE.MeshBasicMaterial({ color: color });
 const Sunsphere = new THREE.Mesh(geometry, material);
-Sunsphere.position.set(-70, 0, 50);
+Sunsphere.position.set(-79, 0, 79);
 Sunsphere.scale.set(22, 22, 22);
 Sunsphere.layers.set(1);
 scene.add(Sunsphere);
