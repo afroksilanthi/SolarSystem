@@ -9,12 +9,7 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 // Setup
 const scene = new THREE.Scene();
 export { scene as default };
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 camera.position.set(70, 0, 50);
 
@@ -42,17 +37,12 @@ controls.update();
 
 // Lights
 
-// const pointLight = new THREE.PointLight(0xffffff, 1);
-// pointLight.position.set(0, 0, 0);
-// scene.add( pointLight );
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
 ambientLight.position.set(0, 0, 0);
 scene.add(ambientLight);
 
-/////////Earth Spotlight
+///Earth Spotlight
 let spotLightE;
-
 spotLightE = new THREE.SpotLight(0xffffff, 100);
 spotLightE.position.set(-3, 5, 3.5);
 spotLightE.angle = Math.PI / 8;
@@ -70,15 +60,15 @@ scene.add(directionalLight);
 // SEE THE SPOTLIGHT
 // const lightHelper = new THREE.SpotLightHelper( spotLightV );
 // const lightHelper2 = new THREE.DirectionalLightHelper( directionalLight)
-
 // scene.add( lightHelper, lightHelper2 );
 
 //EARTH 3
+// let allplanets = [ earth, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune ];
 let earth;
 const loader = new GLTFLoader();
-loader.load(
-  "files/earth.glb",
-  function (gltf) {
+
+//function loadPlanet(scene, loader, fileName, position[], scale[]) {}
+loader.load("files/earth.glb",function (gltf) {
     earth = gltf.scene; // Get the loaded scene
     earth.position.set(-30, 0, 30); // Set x, y, z coordinates as needed
     earth.scale.set(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
@@ -156,20 +146,6 @@ loader.load("files/Neptune.glb", function (gltf) {
   neptune.scale.set(0.0049, 0.0049, 0.0049);
   scene.add(neptune);
 });
-//SUN
-// let sun;
-// loader.load( 'files/sun.glb', function(gltf){
-//   sun = gltf.scene
-//   sun.position.set(-50, 0, 30); // Set x, y, z coordinates as needed
-//   sun.scale.set(2, 2, 2); // Adjust the scale as needed
-//    scene.add( sun )
-// })
-
-// moon.position.z = 30;
-// moon.position.setX(-10);
-
-// earth.position.z = -5;
-// earth.position.x = 2;
 
 // Scroll Animation
 // function moveCamera() {
@@ -231,8 +207,6 @@ Sunsphere.scale.set(22, 22, 22);
 Sunsphere.layers.set(1);
 scene.add(Sunsphere);
 
-///
-/////////////////////////////
 // galaxy geometry
 const starGeometry = new THREE.SphereGeometry(90, 94, 94);
 const gtexture = new THREE.TextureLoader().load("files/galaxy1.png");
@@ -243,24 +217,20 @@ const starMaterial = new THREE.MeshBasicMaterial({
   side: THREE.BackSide,
   transparent: true,
 });
+
 // galaxy mesh
 const starMesh = new THREE.Mesh(starGeometry, starMaterial);
 
 // starMesh.layers.set(0);
 scene.add(starMesh);
-//
 
 bloomComposer.render(Sunsphere);
-
 bloomComposer.addPass(renderScene);
 bloomComposer.addPass(bloomPass);
-
-// camera.layers.set(1);
 bloomComposer.render();
-
+// camera.layers.set(1);
 // starMesh.layers.set(1);
 // Sunsphere.layers.set(1);
-
 camera.layers.enableAll(); // Render all layers
 bloomComposer.render();
 
@@ -280,10 +250,3 @@ window.onresize = function () {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 };
-
-// Background
-// const spaceTexture = new THREE.TextureLoader().load('files/spacee2.jpg');
-// scene.background = spaceTexture;
-
-/*Topothesies planith
-kai array kai for loop*/
