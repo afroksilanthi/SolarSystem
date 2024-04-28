@@ -36,7 +36,6 @@ controls.enablePan = false; //not moving around
 controls.update();
 
 // Lights
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
 ambientLight.position.set(0, 0, 0);
 scene.add(ambientLight);
@@ -61,18 +60,30 @@ scene.add(directionalLight);
 // const lightHelper = new THREE.SpotLightHelper( spotLightV );
 // const lightHelper2 = new THREE.DirectionalLightHelper( directionalLight)
 // scene.add( lightHelper, lightHelper2 );
+// let earth;
+// const loader = new GLTFLoader();
 
-//EARTH 3
-// let allplanets = [ earth, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune ];
-let earth;
-const loader = new GLTFLoader();
+//PLanets
+let allplanets = 
+[ { name: "Mercury", position: new THREE.Vector3(-50, 0, 50), scale: new THREE.Vector3(0.0022, 0.0022, 0.0022)},
+  { name: "Venus", position: new THREE.Vector3(-40, 0, 40), scale: new THREE.Vector3(0.003, 0.003, 0.003)},
+  { name: "earth", position: new THREE.Vector3(-30, 0, 30), scale: new THREE.Vector3(0.004, 0.004, 0.004) },
+  { name: "Mars", position: new THREE.Vector3(-20, 0, 20), scale: new THREE.Vector3(0.003, 0.003, 0.003)},
+  { name: "Jupiter", position: new THREE.Vector3(-10, 0, 10),scale: new THREE.Vector3(0.01, 0.01, 0.01)},
+  { name: "Saturn", position: new THREE.Vector3(4, 0, -4), scale: new THREE.Vector3(0.008, 0.008, 0.008)},
+  { name: "Uranus", position: new THREE.Vector3(15, 0, -15), scale: new THREE.Vector3(0.005, 0.005, 0.005)},
+  { name: "Neptune", position: new THREE.Vector3(25, 0, -25), scale:new THREE.Vector3(0.0049, 0.0049, 0.0049)}];
 
-//function loadPlanet(scene, loader, fileName, position[], scale[]) {}
-loader.load("files/earth.glb",function (gltf) {
-    earth = gltf.scene; // Get the loaded scene
-    earth.position.set(-30, 0, 30); // Set x, y, z coordinates as needed
-    earth.scale.set(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
-    scene.add(earth); // Add the scaled object to the scene
+const loader = new GLTFLoader(); // Create a loader instance
+
+export function loadPlanet(scene, loader, fileName, position, scale) {
+  loader.load(`files/${fileName}.glb`, function (gltf) {
+    let planet = gltf.scene; 
+    planet.position.set(position.x,position.y,position.z);//(-30, 0, 30); // Set x, y, z coordinates as needed
+    console.log("POSITION")
+    planet.scale.set(scale.x,scale.y,scale.z);//(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
+    console.log("SCALE")
+    scene.add(planet);
   },
   (xhr) => {
     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -81,107 +92,11 @@ loader.load("files/earth.glb",function (gltf) {
     console.log(error);
   }
 );
+}
 
-// Mercury 1
-let mercury;
-loader.load("files/Mercury.glb", function (gltf) {
-  mercury = gltf.scene;
-  mercury.position.set(-50, 0, 50); // Set x, y, z coordinates as needed
-  mercury.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
-  scene.add(mercury);
-});
+allplanets.forEach(planet => { loadPlanet(scene, loader, planet.name, planet.position, planet.scale); });
 
-//VENUS 2
-let venus;
-loader.load("files/Venus.glb", function (gltf) {
-  venus = gltf.scene;
-  venus.position.set(-40, 0, 40); // Set x, y, z coordinates as needed
-  venus.scale.set(0.004, 0.004, 0.004); // Adjust the scale as needed
-  venus.layers.set(-1);
-  scene.add(venus);
-});
-
-//Mars 4
-let mars;
-loader.load("files/Mars.glb", function (gltf) {
-  mars = gltf.scene;
-  mars.position.set(-20, 0, 20); // Set x, y, z coordinates as needed
-  mars.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
-  scene.add(mars); // Add the scaled object to the scene
-});
-
-//Jupiter 5
-let jupiter;
-loader.load("files/Jupiter.glb", function (gltf) {
-  jupiter = gltf.scene;
-  jupiter.position.set(-10, 0, 10);
-  jupiter.scale.set(0.01, 0.01, 0.01);
-  scene.add(jupiter);
-});
-
-//Saturn 6
-let saturn;
-loader.load("files/Saturn.glb", function (gltf) {
-  saturn = gltf.scene;
-  saturn.position.set(4, 0, -4);
-  saturn.rotateX(12);
-  saturn.scale.set(0.008, 0.008, 0.008);
-  scene.add(saturn);
-});
-
-//Uranus 7
-let uranus;
-loader.load("files/Uranus.glb", function (gltf) {
-  uranus = gltf.scene;
-  uranus.position.set(15, 0, -15);
-  uranus.scale.set(0.005, 0.005, 0.005);
-  scene.add(uranus);
-});
-
-//Neptune 8
-let neptune;
-loader.load("files/Neptune.glb", function (gltf) {
-  neptune = gltf.scene;
-  neptune.position.set(25, 0, -25);
-  neptune.scale.set(0.0049, 0.0049, 0.0049);
-  scene.add(neptune);
-});
-
-// Scroll Animation
-// function moveCamera() {
-//   const t = document.body.getBoundingClientRect().top;
-//   if (earth){
-//     earth.rotation.y += 0.01;
-//     earth.rotation.z += 0.01;
-//   }
-//   if (venus){
-//     venus.rotation.x += 0.03;
-//     venus.rotation.y += 0.08;
-//     venus.rotation.z += 0.05;
-//   }
-
-//   if(mercury){
-//     mercury.rotation.x += 0.05;
-//     mercury.rotation.y += 0.075;
-//     mercury.rotation.z += 0.05; }
-
-//   if(mars){
-//     mars.rotation.x += 0.05;
-//     mars.rotation.y += 0.085;
-//     mars.rotation.z += 0.05;  }
-
-//   if(jupiter){
-//     mars.rotation.x += 0.04;
-//     mars.rotation.y += 0.065;
-//     mars.rotation.z += 0.06;  }
-
-//     camera.position.z = t * -0.01;
-//     camera.position.x = t * -0.0002;
-//     camera.rotation.y = t * -0.0002;
-// }
-
-// document.body.onscroll = moveCamera;
-// moveCamera();
+export{allplanets}
 
 //Sun Glow
 const renderScene = new RenderPass(scene, camera);
@@ -250,3 +165,70 @@ window.onresize = function () {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 };
+
+
+
+// Mercury 1
+// let mercury;
+// loader.load("files/Mercury.glb", function (gltf) {
+//   mercury = gltf.scene;
+//   mercury.position.set(-50, 0, 50); // Set x, y, z coordinates as needed
+//   mercury.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
+//   scene.add(mercury);
+// });
+
+//VENUS 2
+// let venus;
+// loader.load("files/Venus.glb", function (gltf) {
+//   venus = gltf.scene;
+//   venus.position.set(-40, 0, 40); // Set x, y, z coordinates as needed
+//   venus.scale.set(0.004, 0.004, 0.004); // Adjust the scale as needed
+//   venus.layers.set(-1);
+//   scene.add(venus);
+// });
+
+//Mars 4
+// let mars;
+// loader.load("files/Mars.glb", function (gltf) {
+//   mars = gltf.scene;
+//   mars.position.set(-20, 0, 20); // Set x, y, z coordinates as needed
+//   mars.scale.set(0.003, 0.003, 0.003); // Adjust the scale as needed
+//   scene.add(mars); // Add the scaled object to the scene
+// });
+
+//Jupiter 5
+// let jupiter;
+// loader.load("files/Jupiter.glb", function (gltf) {
+//   jupiter = gltf.scene;
+//   jupiter.position.set(-10, 0, 10);
+//   jupiter.scale.set(0.01, 0.01, 0.01);
+//   scene.add(jupiter);
+// });
+
+//Saturn 6
+// let saturn;
+// loader.load("files/Saturn.glb", function (gltf) {
+//   saturn = gltf.scene;
+//   saturn.position.set(4, 0, -4);
+//   saturn.rotateX(12);
+//   saturn.scale.set(0.008, 0.008, 0.008);
+//   scene.add(saturn);
+// });
+
+//Uranus 7
+// let uranus;
+// loader.load("files/Uranus.glb", function (gltf) {
+//   uranus = gltf.scene;
+//   uranus.position.set(15, 0, -15);
+//   uranus.scale.set(0.005, 0.005, 0.005);
+//   scene.add(uranus);
+// });
+
+//Neptune 8
+// let neptune;
+// loader.load("files/Neptune.glb", function (gltf) {
+//   neptune = gltf.scene;
+//   neptune.position.set(25, 0, -25);
+//   neptune.scale.set(0.0049, 0.0049, 0.0049);
+//   scene.add(neptune);
+// });
