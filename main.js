@@ -34,6 +34,7 @@ controls.enablePan = false; //not moving around
 // controls.autoRotateSpeed = 5;
 
 controls.update();
+export {controls};
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
@@ -84,6 +85,9 @@ export function loadPlanet(scene, loader, fileName, position, scale) {
     planet.scale.set(scale.x,scale.y,scale.z);//(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
     console.log("SCALE")
     scene.add(planet);
+    if(fileName == "Saturn"){
+      planet.rotateX(Math.PI/4);
+    }
   },
   (xhr) => {
     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -151,7 +155,7 @@ bloomComposer.render();
 
 const animatee = () => {
   requestAnimationFrame(animatee);
-  starMesh.rotation.y += 0.0001;
+  starMesh.rotation.y += 0.0002;
   // camera.layers.set(1);
   // camera.layers.enableAll();
   bloomComposer.render();
