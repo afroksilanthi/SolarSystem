@@ -45,7 +45,6 @@ html, body {
 }
 
 #homeButton {
-  /* display: none; */
   margin-left: 90%;/*400px;*/
   margin-top: 2px;
   display: flex;
@@ -92,7 +91,6 @@ canvas {
   top: 0;
   left: 0;
 }
-
 
 .left {
   grid-column: 6 / 12;
