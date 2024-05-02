@@ -3,29 +3,13 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import scene from "./main.js";
 import { loadPlanet, controls } from './main.js';
+// import gsap from "gsap";
 
 document.addEventListener("DOMContentLoaded", function () {
-  const sunButton = document.getElementById("Sun");
-  const mercuryButton = document.getElementById("Mercury");
-  const venusButton = document.getElementById("Venus");
-
-  const earthButton = document.getElementById('Earth');
-  const marsButton = document.getElementById('Mars');
-  const jupiButton = document.getElementById('Jupiter');
-  const saturnButton = document.getElementById('Saturn');
-  const uranusButton = document.getElementById('Uranus');
-  const neptButton = document.getElementById('Neptune');
-
-  sunButton.addEventListener("click", () => loadSelectedPlanet(allplanets[0]));
-  mercuryButton.addEventListener("click", () => loadSelectedPlanet(allplanets[1]));
-  venusButton.addEventListener("click", () => loadSelectedPlanet(allplanets[2]));
-  earthButton.addEventListener("click", () => loadSelectedPlanet(allplanets[3]));
-  marsButton.addEventListener("click", () => loadSelectedPlanet(allplanets[4]));
-  jupiButton.addEventListener("click", () => loadSelectedPlanet(allplanets[5]));
-  saturnButton.addEventListener("click", () => loadSelectedPlanet(allplanets[6]));
-  uranusButton.addEventListener("click", () => loadSelectedPlanet(allplanets[7]));
-  neptButton.addEventListener("click", () => loadSelectedPlanet(allplanets[8]));
-
+  const buttons = ["Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
+  buttons.forEach((buttonName, i) => {
+    document.getElementById(buttonName).addEventListener("click", () => loadSelectedPlanet(allplanets[i]));
+  });
 });
 
 function loadSelectedPlanet(planetData) {
@@ -37,6 +21,8 @@ function loadSelectedPlanet(planetData) {
   scene.add(ambientLight);
   loadPlanet(scene, new GLTFLoader(), planetData.name, new THREE.Vector3(0, 0, 0), planetData.scale);
   controls.enableZoom = false;
+  // const t1 = gsap.timeline({defaults: {duration: 1}})
+  // t1.fromTo(planett.scale, {z:0, x:0, y:0},{z:1, x:1, y:1} )
 }
 
 function clearScene() {
@@ -58,16 +44,15 @@ let allplanets =
   { name: "Neptune", position: new THREE.Vector3(0, 0, 0), scale: new THREE.Vector3(0.05, 0.05, 0.05) }
   ];
 
+//HOME BUTTON
 document.addEventListener("DOMContentLoaded", function () {
   const homeButton = document.getElementById("homeButton");
-
   // Check if it's the homepage (no path or just a slash) and hide the button
   if (window.location.pathname === '' || window.location.pathname === '/') {
     homeButton.style.visibility = 'hidden';
   } else {
-    homeButton.style.visibility = 'visible'; // Show button on any other page
+    homeButton.style.visibility = 'visible';
   }
-
   const navbarItems = document.querySelectorAll(".navbar a");  // Select all links inside navbar
 
   // Add click event listener to all navbar links (unchanged)
@@ -82,6 +67,5 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "/";
   }
 
-  // Add event listener to home button (unchanged)
   document.getElementById("homeButton").addEventListener("click", goToHomePage);
 });

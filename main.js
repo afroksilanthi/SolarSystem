@@ -30,8 +30,6 @@ controls.minDistance = 15;
 controls.maxDistance = 80;
 controls.enableDamping = true; //more weight
 controls.enablePan = false; //not moving around
-// controls.autoRotate = true; //rotate
-// controls.autoRotateSpeed = 5;
 
 controls.update();
 export { controls };
