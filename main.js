@@ -137,8 +137,6 @@ bloomComposer.render();
 const animatee = () => {
   requestAnimationFrame(animatee);
   starMesh.rotation.y += 0.0002;
-  // camera.layers.set(1);
-  // camera.layers.enableAll();
   bloomComposer.render();
 };
 

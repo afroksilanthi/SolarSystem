@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import scene from "./main.js";
 import { loadPlanet, controls } from './main.js';
-// import gsap from "gsap";
 
 document.addEventListener("DOMContentLoaded", function () {
   const buttons = ["Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
@@ -16,13 +15,27 @@ function loadSelectedPlanet(planetData) {
   if (scene.children.length > 0) {
     clearScene(); // Clear the scene if there's an existing planet
   }
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
   ambientLight.position.set(0, 0, 0);
   scene.add(ambientLight);
   loadPlanet(scene, new GLTFLoader(), planetData.name, new THREE.Vector3(0, 0, 0), planetData.scale);
   controls.enableZoom = false;
-  // const t1 = gsap.timeline({defaults: {duration: 1}})
-  // t1.fromTo(planett.scale, {z:0, x:0, y:0},{z:1, x:1, y:1} )
+
+//STARS
+  function addStar() {
+    const geometry = new THREE.SphereGeometry(0.1, 24, 24);
+    const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    const star = new THREE.Mesh(geometry, material);
+  
+    const [x, y, z] = Array(3)
+      .fill()
+      .map(() => THREE.MathUtils.randFloatSpread(200));
+  
+    star.position.set(x, y, z);
+    scene.add(star);
+  }
+  
+  Array(1500).fill().forEach(addStar); 
 }
 
 function clearScene() {
