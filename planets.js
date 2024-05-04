@@ -60,7 +60,7 @@ let allplanets =
 //HOME BUTTON
 document.addEventListener("DOMContentLoaded", function () {
   const homeButton = document.getElementById("homeButton");
-  // Check if it's the homepage (no path or just a slash) and hide the button
+  // Check if it's the homepage and hide the button
   if (window.location.pathname === '' || window.location.pathname === '/') {
     homeButton.style.visibility = 'hidden';
   } else {
@@ -68,14 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const navbarItems = document.querySelectorAll(".navbar a");  // Select all links inside navbar
 
-  // Add click event listener to all navbar links (unchanged)
+  // Add click event listener to all navbar links
   navbarItems.forEach(function (item) {
     item.addEventListener("click", function () {
       homeButton.style.visibility = 'visible'; // Show button on any navbar click
     });
   });
 
-  // Function to navigate to home page (unchanged)
+  // Function to navigate to home page
   function goToHomePage() {
     window.location.href = "/";
   }

@@ -6,11 +6,12 @@ import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 
-// Setup
+//Scene
 const scene = new THREE.Scene();
 export { scene as default };
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+//Camera
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(70, 0, 50);
 
 //Renderer
@@ -18,7 +19,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
   antialias: true,
 });
-renderer.setPixelRatio(2); //smoother sphere (or can put: window.devicePixelRatio)
+renderer.setPixelRatio(2); //smoother sphere
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -38,17 +39,6 @@ export { controls };
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
 ambientLight.position.set(0, 0, 0);
 scene.add(ambientLight);
-
-//Spotlight
-let spotLightE;
-spotLightE = new THREE.SpotLight(0xffffff, 100);
-spotLightE.position.set(-3, 5, 3.5);
-spotLightE.angle = Math.PI / 8;
-spotLightE.penumbra = 1.5; // Set the penumbra to soften the edges of the spotLight
-spotLightE.decay = 2;
-spotLightE.distance = 0;
-
-scene.add(spotLightE);
 
 ///Dir Light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
@@ -71,10 +61,8 @@ const loader = new GLTFLoader(); // Create a loader instance
 export function loadPlanet(scene, loader, fileName, position, scale) {
   loader.load(`files/${fileName}.glb`, function (gltf) {
     let planet = gltf.scene;
-    planet.position.set(position.x, position.y, position.z);//(-30, 0, 30); // Set x, y, z coordinates as needed
-    console.log("POSITION")
-    planet.scale.set(scale.x, scale.y, scale.z);//(0.0022, 0.0022, 0.0022); // Adjust the scale as needed
-    console.log("SCALE")
+    planet.position.set(position.x, position.y, position.z); // position
+    planet.scale.set(scale.x, scale.y, scale.z); // scale
     scene.add(planet);
     if (fileName == "Saturn") {
       planet.rotateX(Math.PI / 4);//Rotate
@@ -123,24 +111,20 @@ const starMaterial = new THREE.MeshBasicMaterial({
 
 // galaxy mesh
 const starMesh = new THREE.Mesh(starGeometry, starMaterial);
-
-// starMesh.layers.set(0);
 scene.add(starMesh);
-
-bloomComposer.render(Sunsphere);
-bloomComposer.addPass(renderScene);
-bloomComposer.addPass(bloomPass);
-bloomComposer.render();
-camera.layers.enableAll(); // Render all layers
-bloomComposer.render();
 
 const animatee = () => {
   requestAnimationFrame(animatee);
   starMesh.rotation.y += 0.0002;
   bloomComposer.render();
 };
-
 animatee();
+
+//BloomPass
+bloomComposer.addPass(renderScene);
+bloomComposer.addPass(bloomPass);
+camera.layers.enableAll(); // Render all layers
+bloomComposer.render();
 
 //WINDOW SIZE
 window.onresize = function () {
