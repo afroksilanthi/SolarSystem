@@ -35,14 +35,14 @@ controls.enablePan = false; //not moving around
 controls.update();
 export { controls };
 
-// Lights
+// Ambient Light
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
 ambientLight.position.set(0, 0, 0);
 scene.add(ambientLight);
 
 ///Dir Light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-directionalLight.position.set(-18, 58, 12); // Set position of the light(-10, -1, 10)
+directionalLight.position.set(-18, 58, 12);
 scene.add(directionalLight);
 
 //PLanets
