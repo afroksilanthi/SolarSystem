@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import scene from "./main.js";
 import { loadPlanet, controls } from './main.js';
 
+//Load Planets and Buttons
 document.addEventListener("DOMContentLoaded", function () {
   const buttons = ["Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
   buttons.forEach((buttonName, i) => {
