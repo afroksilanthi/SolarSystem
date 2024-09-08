@@ -39,8 +39,10 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Copy 
-        run: cp ./main.js dist/
+      - name: Copy main
+        run: cp main.js dist/
+      - name: Copy planets   
+        run: cp planets.js dist/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
